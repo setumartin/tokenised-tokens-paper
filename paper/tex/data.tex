@@ -23,25 +23,25 @@ the contract burns a token.
 
 A single transaction can emit multiple events.  We define a
 \textit{meta-event} to be a sequence of events that match some pattern
-and are emitted by a single transaction.  We define a \textit{tokenise
-  meta-event} to be a meta-event where the pattern is two
-\texttt{Transfer} events: one must indicate a transfer of tokens to
-the contract and another must indicate a new token being minted
+and are emitted by a single transaction.  We define a
+\textit{tokenising meta-event} to be a meta-event where the pattern is
+two \texttt{Transfer} events: one must indicate a transfer of tokens
+to the contract and another must indicate a new token being minted
 (\textit{deposit \& mint}), or one must indicate a token being burned
 and another must indicate a transfer of an existing token from the
 contract (\textit{withdraw \& burn}.  In the terminology of
-{ERC}~4626, a tokenise meta-event corresponds to either a
+{ERC}~4626, a tokenising meta-event corresponds to either a
 \texttt{Deposit} event or a \texttt{Withdraw} event.  However, our
-tokenise meta-event does not require the contract to implement
+tokenising meta-event does not require the contract to implement
 {ERC}~4626.
 
 We extracted all \texttt{Transfer} events from Ethereum mainnet from
 block height \num{0} to \num{16685101} (February 2023) inclusive using
 Geth's \texttt{eth\_getLogs} RPC method~\cite{geth-xx}.  From the
-\texttt{Transfer} events, we identified \num{4032033} tokenise
+\texttt{Transfer} events, we identified \num{4032033} tokenising
 meta-events.  Table~\cite{tab:meta-events} shows a sample of the data.
 The first (resp., last) two rows are the earliest (resp., latest) two
-occurrences of tokenise meta-events in that data that perform a
+occurrences of tokenising meta-events in that data that perform a
 deposit \& mint, and a withdraw \& burn.
 
 For example, the first row indicates a transaction that deposited a
@@ -56,17 +56,34 @@ deposited with a contract to mint Token~$\mathcal{Y}$, and/or
 Token~$\mathcal{Y}$ can be burned by a contract to withdraw
 Token~$\mathcal{X}$.
 
+We can filter the tokenising meta-events to include only those that
+involve two tokens, Token~$\mathcal{X}$ and Token~$\mathcal{Y}$, such
+that there is at least one instance of Token~$\mathcal{X}$ being
+deposited with a contract to mint Token~$\mathcal{Y}$, and at least
+one instance of Token~$\mathcal{Y}$ being burned by a contract to
+withdraw Token~$\mathcal{X}$.  In other words, the ``and/or''
+conjunction in the above is replaced by ``and''.  This excludes
+\textit{one-way token upgrades} where Token~$\mathcal{X}$ can be
+deposited with a contract to mint Token~$\mathcal{Y}$ but
+Token~$\mathcal{X}$ cannot be withdrawn from the contract, and
+\textit{one-way token burns} where Token~$\mathcal{Y}$ can be burned
+by a contract to withdraw Token~$\mathcal{X}$ but Token~$\mathcal{X}$
+cannot be deposited with the contract to mint Token~$\mathcal{Y}$.  Of
+the \num{4032033} tokenising meta-events, \num{3461723} meet the
+additional criteria.  We will refer to the unfiltered and filtered
+tokenising meta-events in the subsequent sections.
+
 \begin{table*}
   \centering
-  \caption{Each tokenise meta-event contains the address of the source
-    token, the address of the target token, one of two possible pairs
-    of actions (deposit \& mint or withdraw \& burn), the amount of
-    the source token that was deposited or withdrawn, the amount of
+  \caption{Each tokenising meta-event contains the address of the
+    source token, the address of the target token, one of two possible
+    pairs of actions (deposit \& mint or withdraw \& burn), the amount
+    of the source token that was deposited or withdrawn, the amount of
     the target token that was minted or burned, and a transaction
     hash.  The table includes four sample entries from the full set of
-    \num{4032033} tokenise meta-events: they are the earliest and
-    latest tokenise meta-events that have deposit \& mint and withdraw
-    \& burn actions.}\label{tab:meta-events}
+    \num{4032033} tokenising meta-events: they are the earliest and
+    latest tokenising meta-events that have deposit \& mint and
+    withdraw \& burn actions.}\label{tab:meta-events}
   \begin{tabular}{|c|c|c|r|r|c|}
     \hline
     Source Token &
@@ -105,8 +122,6 @@ Token~$\mathcal{X}$.
   \end{tabular}
 \end{table*}
 
-The filtered event logs contain \num{3461723} events.
-
 \subsection{Off-Chain Data}\label{sec:data-off-chain}
 
 CoinGecko~\cite{gecko-labs-xx} is a cryptocurrency data platform that
@@ -121,10 +136,31 @@ They cover many blockchains, decentralised exchanges, and tokens.
 
 It involves \num{8424} distinct tokens.
 
-We constructed a directed graph from the tokenise meta-events as
+We constructed a directed graph from the tokenising meta-events as
 follows.  Each vertex corresponds to a distinct token.  Each directed
-edge from a source to a target corresponds to a set of tokenise
+edge from a source to a target corresponds to a set of tokenising
 meta-events that either deposits the source token and mints the target
 token, or withdraws the source token and burns the target token.  In
 the terminology of {ERC}~4626, the source is the \textit{asset} or and
 the target is the \textit{share}.  The graph has 8424 vertices and
+
+\subsection{Data Limitations}\label{sec:data-limitations}
+
+Our input data, namely, Ethereum event logs, CoinGecko market data,
+and DEX Screener liquidity pool data, have limitations.  Firstly,
+Ethereum event logs are unauthenticated: a contract can emit an event
+of its choosing.  There is no guarantee that, say, an ERC-20
+\texttt{Transfer} event accurately reflects an actual
+transfer~\cite{guidi-michienzi-22}.  However, event logs are generally
+accurate and malicious contracts can be easily excluded.  For an
+aggregated analysis, such as ours, the impact should be minimal.
+Secondly, the data from CoinGecko and DEX Screener are snapshots that
+were gathered in April 2024 whereas the Ethereum event logs have a
+temporal component.  It is possible that a token had an entry on
+CoinGecko in the past, but, at the time the data was gathered, the
+entry no longer existed.  It is also possible that a token was tracked
+by DEX Screener in the past, but, at the time the data was gathered,
+it was no longer being tracked.  It is also possible that CoinGecko's
+and DEX Screener's coverage is incomplete or inaccurate.  However, as
+a high-level measure of token popularity, the impact of the mismatch
+should be minimal.
