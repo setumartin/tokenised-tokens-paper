@@ -18,7 +18,7 @@ set style line 3 linecolor rgb "#fb9a99"
 set style line 4 linecolor rgb "#fdbf6f"
 set style line 5 linecolor rgb "#cab2d6"
 
-set title "In-Degree/Out-Degree Correlations"
+set title "In-Degree/Out-Degree Correlations in Token Graphs"
 
 set grid
 

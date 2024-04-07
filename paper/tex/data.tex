@@ -29,10 +29,12 @@ two \texttt{Transfer} events: one must indicate a transfer of tokens
 to the contract and another must indicate a new token being minted
 (\textit{deposit \& mint}), or one must indicate a token being burned
 and another must indicate a transfer of an existing token from the
-contract (\textit{withdraw \& burn}.  In the terminology of ERC~4626,
-a tokenising meta-event corresponds to either a \texttt{Deposit} event
-or a \texttt{Withdraw} event.  However, our tokenising meta-event does
-not require the contract to follow ERC~4626.
+contract (\textit{withdraw \& burn}.  Our aim is to identify instances
+where a token is tokenised by another token.  In the terminology of
+ERC~4626, a tokenising meta-event corresponds to either a
+\texttt{Deposit} event or a \texttt{Withdraw} event.  However, our
+tokenising meta-event does not require the contract to follow
+ERC~4626.
 
 \begin{table*}
   \centering
@@ -42,9 +44,9 @@ not require the contract to follow ERC~4626.
     of the source token that was deposited or withdrawn, the amount of
     the target token that was minted or burned, and a transaction
     hash.  The table includes four sample entries from the full set of
-    \num{4032033} tokenising meta-events: they are the earliest and
-    latest tokenising meta-events that have deposit \& mint and
-    withdraw \& burn actions.}\label{tab:meta-events}
+    \num{4032033} tokenising meta-events: the earliest and latest
+    tokenising meta-events that have deposit \& mint and withdraw \&
+    burn actions.}\label{tab:meta-events}
   \begin{tabular}{|c|c|c|r|r|c|}
     \hline
     Source Token &
@@ -87,8 +89,9 @@ We extracted all \texttt{Transfer} events from Ethereum mainnet from
 block height \num{0} to \num{16685101} (February 2023) inclusive using
 Geth's \texttt{eth\_getLogs} RPC method~\cite{geth-xx}.  From the
 \texttt{Transfer} events, we identified \num{4032033} tokenising
-meta-events.  Table~\ref{tab:meta-events} shows a sample of the data.
-The first (resp., last) two rows are the earliest (resp., latest) two
+meta-events using the pattern described above.
+Table~\ref{tab:meta-events} shows a sample of the data.  The first
+(resp., last) two rows are the earliest (resp., latest) two
 occurrences of tokenising meta-events in the data that perform a
 deposit \& mint, and a withdraw \& burn.
 
@@ -119,7 +122,7 @@ by a contract to withdraw Token~$\mathcal{X}$ but Token~$\mathcal{X}$
 cannot be deposited with the contract to mint Token~$\mathcal{Y}$.  Of
 the \num{4032033} tokenising meta-events, \num{3461723} meet the
 additional criterion.  We will refer to the unfiltered and filtered
-tokenising meta-events in Sect.~\ref{sec:data-directed-graph}.
+tokenising meta-events in Sect.~\ref{sec:data-token-graphs}.
 
 \subsection{Off-Chain Data}\label{sec:data-off-chain}
 
@@ -131,7 +134,7 @@ DEX Screener~\cite{dex-screener-xx} stores, parses, and analyses
 blockchain data to produce a token screener, charts, and analytics.
 They cover many blockchains, decentralised exchanges, and tokens.
 
-\subsection{The Directed Graph}\label{sec:data-directed-graph}
+\subsection{The Token Graphs}\label{sec:data-token-graphs}
 
 We can construct a directed graph from the tokenising meta-events as
 follows.  Each vertex corresponds to a distinct token.  Each directed
@@ -149,7 +152,7 @@ has \num{8424} vertices that are incident with at least one edge and
 \num{7536} edges representing pairs of tokens where the second
 tokenises the first with both deposit \& mint and withdraw \& burn
 actions.  We will refer to the unfiltered and filtered token graphs in
-Sect.~\ref{sec:analysis}.
+the remainder of the paper.
 
 \subsection{Data Limitations}\label{sec:data-limitations}
 
@@ -164,16 +167,26 @@ ERC-20\footnote{``A token contract which creates new tokens SHOULD
 trigger a Transfer event with the \texttt{\_from} address set to
 \texttt{0x0} when tokens are
 created.''~\cite{vogelsteller-buterin-15}} but the second is not.
-
 However, event logs are generally accurate and malicious contracts can
 be easily excluded.  For an aggregated analysis, such as ours, the
-impact should be minimal.  Secondly, the data from CoinGecko and DEX
-Screener are snapshots that were gathered in April 2024 whereas the
-Ethereum event logs have a temporal component.  It is possible that a
-token had an entry on CoinGecko in the past, but, at the time the data
-was gathered, the entry no longer existed.  It is also possible that a
-token was tracked by DEX Screener in the past, but, at the time the
-data was gathered, it was no longer being tracked.  It is also
-possible that CoinGecko's and DEX Screener's coverage is incomplete or
-inaccurate.  However, as a high-level measure of token popularity, the
-impact of the mismatch should be minimal.
+impact should be minimal.
+
+Secondly, the data from CoinGecko and DEX Screener are snapshots that
+were gathered in April 2024 whereas the Ethereum event logs have a
+temporal component.  It is possible that a token had an entry on
+CoinGecko in the past, but, at the time the data was gathered, the
+entry no longer existed.  It is also possible that a token was tracked
+by DEX Screener in the past, but, at the time the data was gathered,
+it was no longer being tracked.  It is also possible that CoinGecko's
+and DEX Screener's coverage is incomplete or inaccurate.  However, as
+a high-level measure of token popularity, the impact of the mismatch
+should be minimal.
+
+Thirdly, tokenising meta-events are a heurstic for identifying
+instances where one token is tokenised by another.  False positives
+create edges in the token graph where the token corresponding to the
+source vertex is not tokenised by the token corresponding to the
+target vertex; false negatives are pairs of tokens where one is
+tokenised by the other but there is no corresponding edge in the token
+graph.  We will discuss both cases in Sect.~\ref{sec:analysis} and
+Sect.~\ref{sec:conclusion}.
