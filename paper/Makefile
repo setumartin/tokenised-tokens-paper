@@ -10,7 +10,10 @@ TEXFILES = \
 	tex/data.tex \
 	tex/analysis.tex \
 	tex/conclusion.tex
-IMGFILES =
+IMGFILES = \
+	img/degree-distributions/filtered-token-graph-degrees.png \
+	img/degree-distributions/token-graph-in-out-degrees.png \
+	img/degree-distributions/unfiltered-token-graph-degrees.png
 BIBFILES = bib/main.bib
 
 .PHONY: all clean watch

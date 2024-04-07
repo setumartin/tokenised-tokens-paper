@@ -2,14 +2,14 @@
 
 \subsection{Ethereum Event Logs and Meta-Events}\label{sec:data-event-logs}
 
-The Ethereum event log records specific occurrences or outputs
-generated during the execution of constract code.  They enable
+The Ethereum event logs record specific occurrences or outputs
+generated during the execution of contract code.  They enable
 off-chain applications to react to on-chain events.  A popular event
-is the \texttt{Transfer} event emitted by {ERC}~20
+is the \texttt{Transfer} event emitted by ERC~20
 tokens~\cite{vogelsteller-buterin-15}:
 
 \begin{lstlisting}[language=Solidity,
-    caption={The {ERC}~20 \texttt{Transfer} event specifies three
+    caption={The ERC~20 \texttt{Transfer} event specifies three
       parameters: \texttt{from}, \texttt{to}, and \texttt{value}.}]
   event Transfer(address indexed from,
                  address indexed to,
@@ -17,9 +17,9 @@ tokens~\cite{vogelsteller-buterin-15}:
 \end{lstlisting}
 
 The event has two special cases.  In the first, the \texttt{from}
-address is the zero address (\texttt{0x0}) and the contract mints a
-token.  In the second, the \texttt{to} address is the zero address and
-the contract burns a token.
+address is the zero address (\texttt{0x0}) and the contract mints new
+tokens.  In the second, the \texttt{to} address is the zero address
+and the contract burns existing tokens.
 
 A single transaction can emit multiple events.  We define a
 \textit{meta-event} to be a sequence of events that match some pattern
@@ -29,49 +29,10 @@ two \texttt{Transfer} events: one must indicate a transfer of tokens
 to the contract and another must indicate a new token being minted
 (\textit{deposit \& mint}), or one must indicate a token being burned
 and another must indicate a transfer of an existing token from the
-contract (\textit{withdraw \& burn}.  In the terminology of
-{ERC}~4626, a tokenising meta-event corresponds to either a
-\texttt{Deposit} event or a \texttt{Withdraw} event.  However, our
-tokenising meta-event does not require the contract to implement
-{ERC}~4626.
-
-We extracted all \texttt{Transfer} events from Ethereum mainnet from
-block height \num{0} to \num{16685101} (February 2023) inclusive using
-Geth's \texttt{eth\_getLogs} RPC method~\cite{geth-xx}.  From the
-\texttt{Transfer} events, we identified \num{4032033} tokenising
-meta-events.  Table~\cite{tab:meta-events} shows a sample of the data.
-The first (resp., last) two rows are the earliest (resp., latest) two
-occurrences of tokenising meta-events in that data that perform a
-deposit \& mint, and a withdraw \& burn.
-
-For example, the first row indicates a transaction that deposited a
-dust amount of ARC~\cite{arcade-city-xx} in a one-to-one exchange for
-newly minted SWT~\cite{swarm-city-xx} in January 2017.  The third row
-indicates a transaction that withdrew
-\num{5183}~{BONE}~\cite{shiba-inu-xx} in exchange for burning
-\num{5160}~\texttt{tBONE} in February 2023.  We are not concerned with
-the individual utility or value of the tokens (or lack thereof); we
-are only interested in the fact that Token~$\mathcal{X}$ can be
-deposited with a contract to mint Token~$\mathcal{Y}$, and/or
-Token~$\mathcal{Y}$ can be burned by a contract to withdraw
-Token~$\mathcal{X}$.
-
-We can filter the tokenising meta-events to include only those that
-involve two tokens, Token~$\mathcal{X}$ and Token~$\mathcal{Y}$, such
-that there is at least one instance of Token~$\mathcal{X}$ being
-deposited with a contract to mint Token~$\mathcal{Y}$, and at least
-one instance of Token~$\mathcal{Y}$ being burned by a contract to
-withdraw Token~$\mathcal{X}$.  In other words, the ``and/or''
-conjunction in the above is replaced by ``and''.  This excludes
-\textit{one-way token upgrades} where Token~$\mathcal{X}$ can be
-deposited with a contract to mint Token~$\mathcal{Y}$ but
-Token~$\mathcal{X}$ cannot be withdrawn from the contract, and
-\textit{one-way token burns} where Token~$\mathcal{Y}$ can be burned
-by a contract to withdraw Token~$\mathcal{X}$ but Token~$\mathcal{X}$
-cannot be deposited with the contract to mint Token~$\mathcal{Y}$.  Of
-the \num{4032033} tokenising meta-events, \num{3461723} meet the
-additional criteria.  We will refer to the unfiltered and filtered
-tokenising meta-events in the subsequent sections.
+contract (\textit{withdraw \& burn}.  In the terminology of ERC~4626,
+a tokenising meta-event corresponds to either a \texttt{Deposit} event
+or a \texttt{Withdraw} event.  However, our tokenising meta-event does
+not require the contract to follow ERC~4626.
 
 \begin{table*}
   \centering
@@ -122,6 +83,44 @@ tokenising meta-events in the subsequent sections.
   \end{tabular}
 \end{table*}
 
+We extracted all \texttt{Transfer} events from Ethereum mainnet from
+block height \num{0} to \num{16685101} (February 2023) inclusive using
+Geth's \texttt{eth\_getLogs} RPC method~\cite{geth-xx}.  From the
+\texttt{Transfer} events, we identified \num{4032033} tokenising
+meta-events.  Table~\ref{tab:meta-events} shows a sample of the data.
+The first (resp., last) two rows are the earliest (resp., latest) two
+occurrences of tokenising meta-events in the data that perform a
+deposit \& mint, and a withdraw \& burn.
+
+For example, the first row indicates a transaction that deposited a
+dust amount of ARC~\cite{arcade-city-xx} to a contract in a one-to-one
+exchange for newly minted SWT~\cite{swarm-city-xx} in January 2017.
+The third row indicates a transaction that withdrew
+\num{5183}~{BONE}~\cite{shiba-inu-xx} from a contract in exchange for
+burning \num{5160}~\texttt{tBONE} in February 2023.  We are not
+concerned with the individual utility or value of the tokens (or lack
+thereof); we are only interested in the fact that Token~$\mathcal{X}$
+can be deposited with a contract to mint Token~$\mathcal{Y}$, and/or
+Token~$\mathcal{Y}$ can be burned by a contract to withdraw
+Token~$\mathcal{X}$.
+
+We filter the tokenising meta-events to include only those meta-events
+that involve two tokens, Token~$\mathcal{X}$ and Token~$\mathcal{Y}$,
+such that there is at least one instance of Token~$\mathcal{X}$ being
+deposited with a contract to mint Token~$\mathcal{Y}$, and at least
+one instance of Token~$\mathcal{Y}$ being burned by a contract to
+withdraw Token~$\mathcal{X}$.  In other words, the ``and/or''
+conjunction in the previous paragraph is replaced by ``and''.  This
+excludes \textit{one-way token upgrades} where Token~$\mathcal{X}$ can
+be deposited with a contract to mint Token~$\mathcal{Y}$ but
+Token~$\mathcal{X}$ cannot be withdrawn from the contract, and
+\textit{one-way token burns} where Token~$\mathcal{Y}$ can be burned
+by a contract to withdraw Token~$\mathcal{X}$ but Token~$\mathcal{X}$
+cannot be deposited with the contract to mint Token~$\mathcal{Y}$.  Of
+the \num{4032033} tokenising meta-events, \num{3461723} meet the
+additional criterion.  We will refer to the unfiltered and filtered
+tokenising meta-events in Sect.~\ref{sec:data-directed-graph}.
+
 \subsection{Off-Chain Data}\label{sec:data-off-chain}
 
 CoinGecko~\cite{gecko-labs-xx} is a cryptocurrency data platform that
@@ -134,15 +133,23 @@ They cover many blockchains, decentralised exchanges, and tokens.
 
 \subsection{The Directed Graph}\label{sec:data-directed-graph}
 
-It involves \num{8424} distinct tokens.
-
-We constructed a directed graph from the tokenising meta-events as
+We can construct a directed graph from the tokenising meta-events as
 follows.  Each vertex corresponds to a distinct token.  Each directed
-edge from a source to a target corresponds to a set of tokenising
-meta-events that either deposits the source token and mints the target
-token, or withdraws the source token and burns the target token.  In
-the terminology of {ERC}~4626, the source is the \textit{asset} or and
-the target is the \textit{share}.  The graph has 8424 vertices and
+edge from a source vertex to a target vertex corresponds to a set of
+tokenising meta-events that deposits the source token and mints the
+target token, and/or withdraws the source token and burns the target
+token.  In the terminology of ERC~4626, the source token is the
+\textit{asset} and the target token is the \textit{share}.
+
+In the unfiltered case, the directed graph has \num{23687} vertices
+(distinct tokens) and \num{23549} edges representing pairs of tokens
+where the second tokenises the first with either deposit \& mint or
+withdraw \& burn actions.  In the filtered case, the directed graph
+has \num{8424} vertices that are incident with at least one edge and
+\num{7536} edges representing pairs of tokens where the second
+tokenises the first with both deposit \& mint and withdraw \& burn
+actions.  We will refer to the unfiltered and filtered token graphs in
+Sect.~\ref{sec:analysis}.
 
 \subsection{Data Limitations}\label{sec:data-limitations}
 
@@ -151,16 +158,22 @@ and DEX Screener liquidity pool data, have limitations.  Firstly,
 Ethereum event logs are unauthenticated: a contract can emit an event
 of its choosing.  There is no guarantee that, say, an ERC-20
 \texttt{Transfer} event accurately reflects an actual
-transfer~\cite{guidi-michienzi-22}.  However, event logs are generally
-accurate and malicious contracts can be easily excluded.  For an
-aggregated analysis, such as ours, the impact should be minimal.
-Secondly, the data from CoinGecko and DEX Screener are snapshots that
-were gathered in April 2024 whereas the Ethereum event logs have a
-temporal component.  It is possible that a token had an entry on
-CoinGecko in the past, but, at the time the data was gathered, the
-entry no longer existed.  It is also possible that a token was tracked
-by DEX Screener in the past, but, at the time the data was gathered,
-it was no longer being tracked.  It is also possible that CoinGecko's
-and DEX Screener's coverage is incomplete or inaccurate.  However, as
-a high-level measure of token popularity, the impact of the mismatch
-should be minimal.
+transfer~\cite{guidi-michienzi-22}.  Additionally, the first special
+case highlighted in Sect.~\ref{sec:data-event-logs} is stipulated by
+ERC-20\footnote{``A token contract which creates new tokens SHOULD
+trigger a Transfer event with the \texttt{\_from} address set to
+\texttt{0x0} when tokens are
+created.''~\cite{vogelsteller-buterin-15}} but the second is not.
+
+However, event logs are generally accurate and malicious contracts can
+be easily excluded.  For an aggregated analysis, such as ours, the
+impact should be minimal.  Secondly, the data from CoinGecko and DEX
+Screener are snapshots that were gathered in April 2024 whereas the
+Ethereum event logs have a temporal component.  It is possible that a
+token had an entry on CoinGecko in the past, but, at the time the data
+was gathered, the entry no longer existed.  It is also possible that a
+token was tracked by DEX Screener in the past, but, at the time the
+data was gathered, it was no longer being tracked.  It is also
+possible that CoinGecko's and DEX Screener's coverage is incomplete or
+inaccurate.  However, as a high-level measure of token popularity, the
+impact of the mismatch should be minimal.
