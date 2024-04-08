@@ -136,6 +136,17 @@ They cover many blockchains, decentralised exchanges, and tokens.
 
 \subsection{The Token Graphs}\label{sec:data-token-graphs}
 
+\begin{figure}
+  \centerline{\includegraphics[width=0.8\columnwidth]{img/token-graph/token-graph.png}}
+  \caption{A token graph, $\mathcal{TG}$, with eight vertices, $t_0,
+    t_1, \ldots, t_7$, and eight edges.  Each edge corresponds to a
+    token tokenising another token.  For example, the token
+    represented by $t_5$ tokenises the token represented by $t_0$.
+    The graph contains an undirected cycle ($t_0, t_5, t_6$), a
+    directed cycle ($t_1, t_6$), and a loop ($t_6$).
+  }\label{fig:token-graph}
+\end{figure}
+
 We can construct a directed graph from the tokenising meta-events as
 follows.  Each vertex corresponds to a distinct token.  Each directed
 edge from a source vertex to a target vertex corresponds to a set of
@@ -143,6 +154,7 @@ tokenising meta-events that deposits the source token and mints the
 target token, and/or withdraws the source token and burns the target
 token.  In the terminology of ERC~4626, the source token is the
 \textit{asset} and the target token is the \textit{share}.
+Figure~\ref{fig:token-graph} shows an example token graph.
 
 In the unfiltered case, the directed graph has \num{23687} vertices
 (distinct tokens) and \num{23549} edges representing pairs of tokens

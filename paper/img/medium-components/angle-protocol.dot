@@ -1,0 +1,19 @@
+node [fontname="CMU Serif"];
+edge [fontname="CMU Serif"];
+digraph d {
+  "ANGLE (0x31429d)"
+  "0x03ffc2"
+  "sdAGAG-f (0x48ff31)"
+  "sdsdAGAG-f-gauge (0x1e3923)"
+  "sdANGLE (0x752b4c)"
+  "sdANGLE-gauge (0xe55843)"
+  "ANGLE (0x31429d)" -> "sdsdAGAG-f-gauge (0x1e3923)"
+  "ANGLE (0x31429d)" -> "sdANGLE-gauge (0xe55843)"
+  "ANGLE (0x31429d)" -> "sdAGAG-f (0x48ff31)"
+  "sdANGLE (0x752b4c)" -> "sdANGLE-gauge (0xe55843)"
+  "sdANGLE (0x752b4c)" -> "sdAGAG-f (0x48ff31)"
+  "ANGLE (0x31429d)" -> "sdANGLE (0x752b4c)"
+  "sdAGAG-f (0x48ff31)" -> "sdsdAGAG-f-gauge (0x1e3923)"
+  "ANGLE (0x31429d)" -> "0x03ffc2"
+  "sdAGAG-f (0x48ff31)" -> "0x03ffc2"
+}

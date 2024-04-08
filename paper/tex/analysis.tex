@@ -177,8 +177,31 @@ variety of tokens as collateral.
     out-degree.}\label{fig:token-graph-in-out-degrees}
 \end{figure}
 
+Figure~\ref{fig:token-graph-in-out-degrees} plots in-degrees against
+out-degrees in the unfiltered and filtered token graphs.  The tokens
+whose corresponding vertices have both high in-degree and high
+out-degree are tokens that tokenise many other tokens, and are
+themselves tokenised by many other tokens.  Examples include
+\texttt{mUSD}, a stablecoin issued by the mStable
+protocol~\cite{mstable-xx} and the \texttt{agEUR} token.  This makes
+intuitive sense as stablecoins can be minted from various forms of
+collateral, and stablecoins can be used as collateral to mint other
+tokens.
+
 \subsection{Connected Component Structure}\label{sec:analysis-component-structure}
 
-\subsection{Cyclic Structure}\label{sec:analysis-cyclic-structure}
+The unfiltered graph has \num{4082} weakly connected components.  A
+giant component contains \num{13794} vertices ($\sim$\num{58}\%) and
+\num{17711} edges ($\sim$\num{75}\%).  \num{3336} components
+($\sim$\num{82}\% of the total) contain two connected vertices.  These
+vertices correspond to pairs of tokens where at least one tokenises
+the other, but neither tokenises, or is tokenised by, a third.
+Interestingly, none of the tokens represented by vertices in these
+components have a non-zero market capitalisation according to
+CoinGecko or are traded in a liquidity pool according to DEX Screener.
+Their lack of popularity reflects their isolation in the token graph.
 
-\subsection{Visualising Token Composition}\label{sec:analysis-visualisations}
+There are \num{418} components with more than two connected vertices
+other than the giant component.
+
+\subsection{Cyclic Structure}\label{sec:analysis-cyclic-structure}
