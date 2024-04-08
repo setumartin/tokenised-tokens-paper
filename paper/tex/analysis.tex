@@ -201,7 +201,83 @@ components have a non-zero market capitalisation according to
 CoinGecko or are traded in a liquidity pool according to DEX Screener.
 Their lack of popularity reflects their isolation in the token graph.
 
-There are \num{418} components with more than two connected vertices
-other than the giant component.
+\begin{figure}
+  \centerline{\includegraphics[width=\columnwidth]{img/medium-components/angle-protocol.png}}
+  \caption{The unfiltered token graph contains a weakly connected
+    component whose vertices correspond to tokens related to the Angle
+    Protocol and Stake DAO.}\label{fig:angle-protocol}
+\end{figure}
+
+There are \num{418} components, other than the giant component, with
+more than two connected vertices.  Figure~\ref{fig:angle-protocol} is
+an example from this set.  It shows the tokenising relationships
+between tokens related to the Angle Protocol~\cite{angle-xx} and Stake
+DAO~\cite{stake-dao-xx}.  Stake DAO implements investment strategies
+based on other decentralised protocols.  Their ``Liquid Lockers''
+produce liquidity, voting power, and yield from lockable tokens.
+\texttt{ANGLE} is Angle's governance token.  It can be deposited with
+Stake DAO to mint \texttt{sdANGLE}.  It is not possible to burn
+\texttt{sdANGLE} and withdraw \texttt{ANGLE}: the edge between those
+vertices represents a one-way operation and is present in the
+unfiltered token graph but not in the filtered version. \texttt{ANGLE}
+and \texttt{sdANGLE} can be deposited in a gauge (liquidity pool) to
+mint \texttt{sdANGLE-gauge}.  We can use this visualisation to
+identify the direct and transitive dependencies of tokenising tokens
+such as \texttt{sdANGLE} and \texttt{sdANGLE-gauge}.  Many of the
+other components in the set produce similar insights that relate to
+other tokens and protocols.
+
+\begin{figure*}
+  \centerline{\includegraphics[width=\textwidth]{img/medium-components/jpegd-protocol.png}}
+  \caption{The filtered token graph contains a weakly connected
+    component whose vertices correspond to tokens related to the
+    JPEG'd Protocol.}\label{fig:jpegd-protocol}
+\end{figure*}
+
+The filtered graph has \num{1491} weakly connected components.  A
+giant component contains \num{4648} vertices ($\sim$\num{55}\%) and
+\num{5247} edges ($\sim$\num{70}\%).  \num{1162} components
+($\sim$\num{78}\% of the total) contain two connected vertices.  There
+are \num{196} components, other than the giant component, with more
+than two connected vertices.  Figure~\ref{fig:jpegd-protocol} is an
+example from this set that relates to the JPEG'd
+Protocol~\cite{jpegd-xx}.  JPEG'd is a decentralised lending market
+where users can supply non-fungible-tokens (NFTs) as collateral and
+obtain loans in \texttt{pETH}, a synthetic token that tracks the price
+of ether. \texttt{JPEG} is the protocol's governance token.  The
+figure shows the various ways in which \texttt{pETH} and \texttt{JPEG}
+can be tokenised by liquidity pools such as Curve's \texttt{pETH/WETH}
+pool~\cite{curve-finance-xx}. Unlike the operations represented by
+edges in Fig.~\ref{fig:angle-protocol}, all operations represented by
+edges in Fig.~\ref{fig:jpegd-protocol} can be reversed by burning the
+tokenising tokens and withdrawing the underlying.
+
+Both the unfiltered and filtered graphs contain giant weakly connected
+components.  Exploring such structures requires an interactive user
+interface with navigational aids such as selection, panning, and
+zooming.  As an illustrative example of the interesting structure in
+the giant components, we identified the longest directed path in the
+filtered token graph.  It comprises nine vertices and represents the
+following sequence of tokens:
+
+\begin{enumerate}
+\item \texttt{renBTC}~(\texttt{0xeb4c27})
+\item \texttt{sBTC}~(\texttt{0xfe18be})
+\item \texttt{crvRenWSBTC}~(\texttt{0x075b1b})
+\item \texttt{tbtc/sbtcCrv}~(\texttt{0x64eda5})
+\item \texttt{btbtc/sbtcCrv}~(\texttt{0xb9d076})
+\item \texttt{ibBTC}~(\texttt{0xc4e159})
+\item \texttt{wibBTC}~(\texttt{0x8751d4})
+\item \texttt{ibbtc/sbtcCRV-f}~(\texttt{0xfbdca6})
+\item \texttt{bibbtc/sbtcCRV-f}~(\texttt{0xae96ff})
+\end{enumerate}
+
+\texttt{renBTC} can be deposited with a contract to mint
+\texttt{sBTC}, \texttt{sBTC} can be deposited with a contract to mint
+\texttt{crvRenWSBTC}, etc.  The reverse operations can also be
+performed (withdraw \& burn).  The chain involves tokens from several
+different protocols.  It is an example of ``composition in the wild''
+--- groups of interacting smart contracts than span multiple
+protocols.
 
 \subsection{Cyclic Structure}\label{sec:analysis-cyclic-structure}

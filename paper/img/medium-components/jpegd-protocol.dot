@@ -1,0 +1,27 @@
+digraph d {
+  node [fontname="CMU Serif"];
+  edge [fontname="CMU Serif"];
+  "pETH (0x836a80)"
+  "pETH-ETH-f (0x984848)"
+  "mooConvexPETH (0x378416)"
+  "pETH-ETH-f-gauge (0x3ee0bd)"
+  "yvCurve-pETH-f (0x5cbf56)"
+  "fpETH-ETH-f (0x4cf4f4)"
+  "JPEGpETH-f (0x23e781)"
+  "JPEGpETH-f-gauge (0x762648)"
+  "JPEG (0xe80c0c)"
+  "pJPEG (0xbff28c)"
+  "JPEGETH-f (0x34ed18)"
+  "JPEGETH-f-gauge (0xfa49b2)"
+  "pETH (0x836a80)" -> "JPEGpETH-f (0x23e781)"
+  "JPEG (0xe80c0c)" -> "JPEGpETH-f (0x23e781)"
+  "pETH (0x836a80)" -> "pETH-ETH-f (0x984848)"
+  "JPEGpETH-f (0x23e781)" -> "JPEGpETH-f-gauge (0x762648)"
+  "JPEG (0xe80c0c)" -> "JPEGETH-f (0x34ed18)"
+  "JPEGETH-f (0x34ed18)" -> "JPEGETH-f-gauge (0xfa49b2)"
+  "pETH-ETH-f (0x984848)" -> "fpETH-ETH-f (0x4cf4f4)"
+  "JPEG (0xe80c0c)" -> "pJPEG (0xbff28c)"
+  "pETH-ETH-f (0x984848)" -> "yvCurve-pETH-f (0x5cbf56)"
+  "pETH-ETH-f (0x984848)" -> "pETH-ETH-f-gauge (0x3ee0bd)"
+  "pETH-ETH-f (0x984848)" -> "mooConvexPETH (0x378416)"
+}

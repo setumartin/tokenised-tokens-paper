@@ -1,6 +1,6 @@
-node [fontname="CMU Serif"];
-edge [fontname="CMU Serif"];
 digraph d {
+  node [fontname="CMU Serif"];
+  edge [fontname="CMU Serif"];
   "ANGLE (0x31429d)"
   "0x03ffc2"
   "sdAGAG-f (0x48ff31)"
