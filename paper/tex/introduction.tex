@@ -1,3 +1,46 @@
 \section{Introduction}\label{sec:introduction}
 
-Introduction goes here.
+We are witnessing a Cambrian explosion of tokens on blockchains:
+Ethereum alone has hundreds of thousands of ERC-20 tokens.  Many
+tokens are simple, in the sense that they are not composed of other
+tokens.  But, some are.  For example, a liquidity pool token
+represents a share of a collection of other tokens.  DEX
+Screener~\cite{dex-screener-xx}, a popular liquidity pool tracker,
+lists over one hundred thousand liquidity pool tokens.  Furthermore,
+tokens are being composed in ever-more creative ways:
+\texttt{PT-weETH-25APR2024}~(\texttt{0xb18c87}) is a token issued by
+Pendle Finance~\cite{pendle-finance-xx} that transitively depends on
+several tokens.  At the time of writing, this token has a market
+capitalisation of over one billion US dollars.  It is critical from
+the perspectives of technical and financial risk to examine the
+composition of tokens.  If an investor purchases
+\texttt{PT-weETH-25APR2024}~(\texttt{0xb18c87}), what token(s) does
+their investment depend on?  In this paper, we present a novel method
+of examining token composition at both the macro- and micro-level and
+we apply it to the Ethereum blockchain.
+
+Our method extracts \textit{meta-events} from the Ethereum event logs.
+Events are emitted by contracts.  They are low-level in nature.
+Meta-events are identified by heuristics.  A single meta-event can be
+derived from multiple events.  For example, ERC-20 tokens (should)
+emit a \texttt{Transfer} event whenever a token is
+transferred~\cite{vogelsteller-buterin-15}.  A meta-event could
+signify a token being tokenised by another token, i.e., a deposit of
+an underlying token with a contract and the minting of a new share
+token, or the burning of a share token and the withdrawal of an
+underlying token from a contract.  This meta-event, which we will call
+a \textit{tokenising meta-event}, can be identified from multiple
+\texttt{Transfer} events within a single transaction.  The tokenising
+meta-events can be represented as a \textit{token graph}: each vertex
+represents a token and each directed edge represents the token
+corresponding to the source vertex being tokenised by the token
+corresponding to the target vertex.  We apply various forms of graph
+analysis to the token graph and we visualise the structure of token
+compositions.
+
+This paper is organised as follows.  In Sect.~\ref{sec:related-work}
+we review related work, including X, Y and Z.  In
+Sect.~\ref{sec:token-composition} we introduce token composition and
+its significance within the token ecosystem.  We describe our data in
+Sect.~\ref{sec:data} and our analysis in Sect.~\ref{sec:analysis}.
+Finally, we conclude in Sect.~\ref{sec:conclusion}.
