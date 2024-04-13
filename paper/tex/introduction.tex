@@ -7,7 +7,7 @@ tokens.  But, some are.  For example, a liquidity pool token
 represents a share of a collection of other tokens.  DEX
 Screener~\cite{dex-screener-xx}, a popular liquidity pool tracker,
 lists over one hundred thousand liquidity pool tokens.  Furthermore,
-tokens are being composed in ever-more creative ways:
+tokens are being composed in ever more creative ways:
 \texttt{PT-weETH-25APR2024}~(\texttt{0xb18c87}) is a token issued by
 Pendle Finance~\cite{nguyen-vuong-22} that transitively depends on
 several tokens.  At the time of writing, this token has a market
@@ -18,6 +18,9 @@ composition of tokens.  If an investor purchases
 their investment depend on?  In this paper, we present a novel method
 of examining token composition at both the macro- and micro-level and
 we apply it to the Ethereum blockchain.
+
+% Antoher good example: Staked Curve.fi renBTC/wBTC Convex Deposit on
+% Abra (\texttt{stkcvxcrvRenWBTC-abra})
 
 Our method extracts \textit{meta-events} from the Ethereum event logs.
 Events are emitted by contracts.  They are low-level in nature.
