@@ -25,10 +25,10 @@ event emitted by ERC~20 tokens~\cite{vogelsteller-buterin-15}:
                  uint256 value);
 \end{lstlisting}
 
-The event has two special cases.  In the first, the \texttt{from}
-address is the zero address (\texttt{0x0}) and the contract mints new
-tokens.  In the second, the \texttt{to} address is the zero address
-and the contract burns existing tokens.
+The event has two special cases.  If the \texttt{from} address is the
+zero address (\texttt{0x0}) then the contract mints new tokens.  If
+the \texttt{to} address is the zero address then the contract burns
+existing tokens.
 
 A single transaction can emit multiple events.  We define a
 \textit{meta-event} to be a sequence of events that match some pattern
@@ -38,12 +38,12 @@ two \texttt{Transfer} events: one must indicate a transfer of tokens
 to the contract and another must indicate a new token being minted
 (\textit{deposit \& mint}), or one must indicate a token being burned
 and another must indicate a transfer of an existing token from the
-contract (\textit{withdraw \& burn}.  We want to identify instances
+contract (\textit{withdraw \& burn}).  We want to identify instances
 where a token is tokenised by another.  In the terminology of
 ERC~4626~\cite{santoro-et-al-22}, a tokenising meta-event corresponds
 to either a \texttt{Deposit} event or a \texttt{Withdraw} event.
 However, our tokenising meta-event does not require the contract to
-follow ERC~4626.
+follow ERC~4626 and emit those precise events.
 
 \begin{table*}
   \centering
@@ -102,19 +102,19 @@ meta-events using the pattern described above.
 Table~\ref{tab:meta-events} shows a sample of the data.  The first
 (resp., last) two rows are the earliest (resp., latest) two
 occurrences of tokenising meta-events in the data that perform a
-deposit \& mint, and a withdraw \& burn.
+deposit \& mint and a withdraw \& burn.
 
 For example, the first row indicates a transaction that deposited a
-dust amount of ARC~\cite{arcade-city-xx} to a contract in a one-to-one
-exchange for newly minted SWT~\cite{swarm-city-xx} in January 2017.
-The third row indicates a transaction that withdrew
-\num{5183}~{BONE}~\cite{shiba-inu-xx} from a contract in exchange for
-burning \num{5160}~\texttt{tBONE} in February 2023.  We are not
-concerned with the individual utility or value of the tokens (or lack
-thereof); we are only interested in the fact that Token~$\mathcal{X}$
-can be deposited with a contract to mint Token~$\mathcal{Y}$, and/or
-Token~$\mathcal{Y}$ can be burned by a contract to withdraw
-Token~$\mathcal{X}$.
+dust amount of \texttt{ARC}~\cite{arcade-city-xx} to a contract in a
+one-to-one exchange for newly minted \texttt{SWT}~\cite{swarm-city-xx}
+in January 2017.  The third row indicates a transaction that withdrew
+\num{5183}~\texttt{BONE}~\cite{shiba-inu-xx} from a contract in
+exchange for burning \num{5160}~\texttt{tBONE} in February 2023.  We
+are not concerned with the individual utility or value of the tokens
+(or lack thereof); we are only interested in the fact that
+Token~$\mathcal{X}$ was deposited with a contract to mint
+Token~$\mathcal{Y}$, and/or Token~$\mathcal{Y}$ was burned by a
+contract to withdraw Token~$\mathcal{X}$.
 
 We filter the tokenising meta-events to include only those meta-events
 that involve two tokens, Token~$\mathcal{X}$ and Token~$\mathcal{Y}$,
@@ -130,11 +130,12 @@ Token~$\mathcal{X}$ cannot be withdrawn from the contract, and
 by a contract to withdraw Token~$\mathcal{X}$ but Token~$\mathcal{X}$
 cannot be deposited with the contract to mint Token~$\mathcal{Y}$.  Of
 the \num{4032033} tokenising meta-events, \num{3461723} meet the
-additional criterion.  We will refer to the unfiltered and filtered
-tokenising meta-events in Sect.~\ref{sec:token-comp-token-graphs}.
+additional requirement.  We will refer to the \textit{unfiltered} and
+\textit{filtered tokenising meta-events} in
+Sect.~\ref{sec:token-comp-token-graph}.
 
-Additionally, we incorporate off-chain data from
-CoinGecko~\cite{gecko-labs-xx} and DEX
+Additionally, we incorporate market capitalisation data from
+CoinGecko~\cite{gecko-labs-xx} and liquidity pool data from DEX
 Screener~\cite{dex-screener-xx}.  CoinGecko aggregates fundamental
 analysis of tokens including market price, exchange volume, and market
 capitalisation. DEX Screener~\cite{dex-screener-xx} stores, parses,
@@ -168,8 +169,8 @@ withdraw \& burn actions.  In the filtered case, the directed graph
 has \num{8424} vertices that are incident with at least one edge and
 \num{7536} edges representing pairs of tokens where the second
 tokenises the first with both deposit \& mint and withdraw \& burn
-actions.  We will refer to the unfiltered and filtered token graphs in
-the remainder of the paper.
+actions.  We will refer to the \textit{unfiltered} and
+\textit{filtered token graphs} in the remainder of the paper.
 
 \subsection{Data Limitations}\label{sec:token-comp-limitations}
 
@@ -178,15 +179,16 @@ Screener liquidity pool data, have limitations.  Firstly, EVM logs are
 unauthenticated: a contract can emit an event of its choosing.  There
 is no guarantee that, say, an ERC-20 \texttt{Transfer} event
 accurately reflects an actual transfer~\cite{guidi-michienzi-22}.
-Additionally, the first special case highlighted in
-Sect.~\ref{sec:token-comp-evm-logs} is stipulated by
+Furthermore, the first special case highlighted in
+Sect.~\ref{sec:token-comp-evm-logs} (mint) is stipulated by
 ERC-20\footnote{``A token contract which creates new tokens SHOULD
 trigger a Transfer event with the \texttt{\_from} address set to
 \texttt{0x0} when tokens are
-created.''~\cite{vogelsteller-buterin-15}} but the second is not.
-However, EVM logs for the Ethereum blockchain are generally accurate
-and malicious contracts can be easily excluded.  For an aggregated
-analysis, such as ours, the impact should be minimal.
+created.''~\cite{vogelsteller-buterin-15}} but the second (burn) is
+not.  However, EVM logs for the Ethereum blockchain are generally
+accurate and malicious contracts can be easily excluded.  For an
+aggregated analysis, such as ours, the impact of these limitations
+should be minimal.
 
 Secondly, the data from CoinGecko and DEX Screener are snapshots that
 were gathered in April 2024 whereas the EVM logs have a temporal
@@ -194,16 +196,16 @@ component.  It is possible that a token had an entry on CoinGecko in
 the past, but, at the time the data was gathered, the entry no longer
 existed.  It is also possible that a token was tracked by DEX Screener
 in the past, but, at the time the data was gathered, it was no longer
-being tracked.  It is also possible that CoinGecko's and DEX
-Screener's coverage is incomplete or inaccurate.  However, as a
+being tracked.  It is also possible that the token coverage of
+CoinGecko or DEX Screener is incomplete or inaccurate.  However, as a
 high-level measure of token popularity, the impact of the mismatch
 should be minimal.
 
 Thirdly, tokenising meta-events are a heurstic for identifying
 instances where one token is tokenised by another.  False positives
 create edges in the token graph where the token corresponding to the
-source vertex is not tokenised by the token corresponding to the
-target vertex; false negatives are pairs of tokens where one is
-tokenised by the other but there is no corresponding edge in the token
-graph.  We will discuss both cases in Sect.~\ref{sec:analysis} and
+source is not tokenised by the token corresponding to the target;
+false negatives are pairs of tokens where one is tokenised by the
+other but there is no corresponding edge in the token graph.  We will
+discuss both cases in Sect.~\ref{sec:analysis} and
 Sect.~\ref{sec:conclusion}.
