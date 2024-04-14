@@ -7,7 +7,6 @@ TEXFILES = \
 	tex/introduction.tex \
 	tex/related-work.tex \
 	tex/token-composition.tex \
-	tex/data.tex \
 	tex/analysis.tex \
 	tex/conclusion.tex
 IMGFILES = \

@@ -6,27 +6,27 @@ tokens, graph analysis of blockchains and token systems, and wrapped
 tokens.
 
 Software composition is a hard problem~\cite{garlan-et-al-94}.  Smart
-contracts on blockchains sidestep the low-level problems of
-interoperability by using a shared execution environment (i.e., a
-virtual machine) and de facto standards (e.g., ERCs), and the
-high-level problems of architectural mismatch by taking a bottom-up
-approach to composition.  He et al.~\cite{he-et-al-20} perform a
-large-scale analysis of \num{10} million Ethereum smart contracts
-deployed between July 2015 and December 2018.  They show that less
-than \num{1}\% of the \num{10} million smart contracts are distinct,
-and more than \num{63}\% of those are similar to at least one other
-smart contract.  The results have been
+contracts sidestep the low-level problems of interoperability by using
+a shared execution environment (i.e., a virtual machine) and
+\textit{de facto} standards (e.g., ERCs), and the high-level problems
+of architectural mismatch by taking a bottom-up approach to
+composition.  He et al.~\cite{he-et-al-20} perform a large-scale
+analysis of \num{10} million Ethereum smart contracts deployed between
+July 2015 and December 2018.  They show that less than \num{1}\% of
+the \num{10} million smart contracts are distinct, and more than
+\num{63}\% of those are similar to at least one other smart contract.
+The results have been
 replicated~(\hspace{1sp}\cite{kondo-et-al-20,chen-et-al-21,khan-et-al-22}).
 
 Fr\"owis et al.~\cite{frowis-et-al-19} use symbolic execution to
 automatically detect smart contracts on the Ethereum blockchain that
 implement token functionality.  Di Angelo and
 Salzer~\cite{di-angelo-salzer-21} reconstruct contract interfaces and
-events from EVM bytecode.  Using primarily transaction data they
-identify token contracts that comply with ERC standards and token
-contracts that do not.  Oliveira et al.~\cite{oliveira-et-al-18}
-propose a taxonomy for classifying tokens and they propose a decision
-tree to guide the token design process.
+events from EVM bytecode.  They used transaction data to identify
+token contracts that comply with ERC standards and token contracts
+that do not.  Oliveira et al.~\cite{oliveira-et-al-18} propose a
+taxonomy for classifying tokens and they propose a decision tree to
+guide the token design process.
 
 Kitzler et al.~\cite{kitzler-et-al-21} select and analyse a subset of
 DeFi activity on the Ethereum blockchain.  They construct and
@@ -41,11 +41,10 @@ analyses of ERC-20 tokens on the Ethereum blockchain that quantify
 their age, economic value, activity volume,
 etc.~(\hspace{1sp}\cite{somin-et-al-18,victor-luders-19})
 
-Caldarelli~\cite{caldarelli-21} discusses wrapped tokens and their
-ability to represent real-world assets (tokenisation) and to bridge
-tokens across blockchains (cross-blockchain interoperability).  The
-WBTC whitepaper~\cite{kyber-et-al-xx} describes a general framework
-for tokenising assets on a blockchain.  Santoro et
+Caldarelli~\cite{caldarelli-21} describes wrapped tokens and their
+ability to represent real-world assets and to bridge tokens across
+blockchains.  The WBTC whitepaper~\cite{kyber-et-al-xx} sets out a
+general framework for tokenising assets on a blockchain.  Santoro et
 al.~\cite{santoro-et-al-22} propose a standard interface for vaults
 for ERC-20 tokens.  The vaults can store a single \textit{asset} or
 underlying token.  Users can \textit{deposit} or \textit{withdraw} the
