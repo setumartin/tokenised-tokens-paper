@@ -1,3 +1,19 @@
 \section{Conclusion}\label{sec:conclusion}
 
-Conclusion goes here.
+In many fields, including engineering, chemistry, and cooking, the
+complexity of a product arises from the combination of numerous base
+materials or ingredients.  This principle holds true for tokens on
+blockchains.  For example,
+\texttt{stkcvxcrvRenWBTC-abra}~(\texttt{0xb65ede}) is a token that
+represents a staked deposit of a share of a liquidity pool for
+synthetic and wrapped versions of Bitcoin's native token.  The base
+tokens (\texttt{renBTC}~(\texttt{0xeb4c27}),
+\texttt{wBTC}~(\texttt{0x2260fa}), etc.) are combined to produce the
+product.  In this paper we detail a novel graph representation of
+token composition.  We construct the graph from the EVM logs of the
+Ethereum blockchain and we relate its properties to the tokenisation
+process.  For example, we highlight the role of stablecoins that can
+be minted from various forms of collateral, and can be used as
+collateral to mint other tokens.  In future work, we will refine the
+heuristic for identifying tokenising meta-events to reduce the number
+of false positives in the token graph.
