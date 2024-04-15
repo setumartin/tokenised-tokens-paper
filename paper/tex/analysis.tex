@@ -15,13 +15,13 @@ transitive dependencies.
     results are the same for both the unfiltered and filtered token
     graphs, i.e., the same five edges are present in
     both.}\label{tab:most-significant-edges}
-  \begin{tabular}{|c|c|r|}
-    \hline
+  \begin{tabular}{ccr}
+    \toprule
 
     Source Token & Target Token & \begin{tabular}{@{}c@{}}\#
       Tokenising\\Meta-Events\end{tabular}\\
 
-    \hline
+    \midrule
 
     \texttt{SHIB}~(\texttt{0x95ad61}) &
     \texttt{xSHIB}~(\texttt{0xb4a812}) & \num{402186}\\
@@ -38,7 +38,7 @@ transitive dependencies.
     \texttt{USDC}~(\texttt{0xa0b869}) &
     \texttt{aUSDC}~(\texttt{0xbcca60}) & \num{69373}\\
 
-    \hline
+    \bottomrule
   \end{tabular}
 \end{table}
 
@@ -83,17 +83,17 @@ tokens transacted, the present USD value of the locked tokens, etc.
   \caption{The top five vertices (tokens) in the unfiltered and
     filtered token graphs by in-degree and
     out-degree.}\label{tab:highest-in-out-degrees}
-  \begin{tabular}{|c|c|r|c|r|}
-    \hline
+  \begin{tabular}{ccrcr}
+    \toprule
 
-    & \multicolumn{2}{c|}{Top Five by In-Degree} &
-    \multicolumn{2}{c|}{Top Five by Out-Degree}\\
+    & \multicolumn{2}{c}{Top Five by In-Degree} &
+    \multicolumn{2}{c}{Top Five by Out-Degree}\\
 
     \cline{2-5}
 
     & Token & Deg. & Token & Deg.\\
 
-    \hline
+    \midrule
 
     \multirow{5}{0pt}{\rotatebox{90}{Unfiltered}}
 
@@ -114,7 +114,7 @@ tokens transacted, the present USD value of the locked tokens, etc.
     & \texttt{aDAI}~(\texttt{0x028171}) & \num{54} &
       \texttt{sUSD}~(\texttt{0x57ab1e}) & \num{548}\\
 
-    \hline
+    \midrule
 
     \multirow{5}{0pt}{\rotatebox{90}{Filtered}}
 
@@ -133,7 +133,7 @@ tokens transacted, the present USD value of the locked tokens, etc.
     & \texttt{agEUR}~(\texttt{0x1a7e4e}) & \num{8} &
     \texttt{WBTC}~(\texttt{0x2260fa}) & \num{211}\\
 
-    \hline
+    \bottomrule
   \end{tabular}
 \end{table}
 
@@ -296,7 +296,7 @@ cycles nor loops.  That is, there is no sequence of $n$ tokens
 represented by vertices $t_0, t_1, \ldots, t_{n - 1}$ such that $t_i$
 is tokenised by $t_{i + 1 \mod n}$, $0 \le i < n$.  Is this due to a
 technical limitation in our tokenising meta-event heuristic, or is it
-the case that no such contract(s) have been deployed during the time
+the case that no such contracts have been deployed during the time
 period covered by the data?  We believe the answer is the latter since
 it \textit{is} possible to deploy a contract that creates tokenising
 meta-events that produce a directed cycle in the filtered token graph.

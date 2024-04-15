@@ -56,7 +56,7 @@ follow ERC~4626 and emit those precise events.
     \num{4032033} tokenising meta-events: the earliest and latest
     tokenising meta-events that have deposit \& mint and withdraw \&
     burn actions.}\label{tab:meta-events}
-  \begin{tabular}{|c|c|c|r|r|c|}
+  \begin{tabular}{cccrrc}
     \hline
     Source Token &
     Target Token &
@@ -180,7 +180,7 @@ unauthenticated: a contract can emit an event of its choosing.  There
 is no guarantee that, say, an ERC-20 \texttt{Transfer} event
 accurately reflects an actual transfer~\cite{guidi-michienzi-22}.
 Furthermore, the first special case highlighted in
-Sect.~\ref{sec:token-comp-evm-logs} (mint) is stipulated by
+Sect.~\ref{sec:token-comp-evm-logs} (mint) is recommended by
 ERC-20\footnote{``A token contract which creates new tokens SHOULD
 trigger a Transfer event with the \texttt{\_from} address set to
 \texttt{0x0} when tokens are
