@@ -206,9 +206,9 @@ token graph.
 
 \begin{figure}
   \centerline{\includegraphics[width=\columnwidth]{img/medium-components/angle-protocol.png}}
-  \caption{The unfiltered token graph contains a weakly connected
-    component whose vertices correspond to tokens related to the Angle
-    Protocol and Stake DAO.}\label{fig:angle-protocol}
+  \caption{The unfiltered token graph has a weakly connected component
+    whose vertices correspond to tokens related to the Angle Protocol
+    and Stake DAO.}\label{fig:angle-protocol}
 \end{figure}
 
 There are \num{418} components, other than the giant component, with
@@ -263,17 +263,21 @@ the giant components, we present the longest directed path in the
 filtered token graph.  It comprises nine vertices and represents the
 following sequence of tokens:
 
+%\vspace{-10pt}
+\begin{multicols}{2}
 \begin{enumerate}[font=\small]
-\item \texttt{renBTC}~(\texttt{0xeb4c27})
-\item \texttt{sBTC}~(\texttt{0xfe18be})
-\item \texttt{crvRenWSBTC}~(\texttt{0x075b1b})
-\item \texttt{tbtc/sbtcCrv}~(\texttt{0x64eda5})
-\item \texttt{btbtc/sbtcCrv}~(\texttt{0xb9d076})
-\item \texttt{ibBTC}~(\texttt{0xc4e159})
-\item \texttt{wibBTC}~(\texttt{0x8751d4})
-\item \texttt{ibbtc/sbtcCRV-f}~(\texttt{0xfbdca6})
-\item \texttt{bibbtc/sbtcCRV-f}~(\texttt{0xae96ff})
+\item \texttt{renBTC}%~(\texttt{0xeb4c27})
+\item \texttt{sBTC}%~(\texttt{0xfe18be})
+\item \texttt{crvRenWSBTC}%~(\texttt{0x075b1b})
+\item \texttt{tbtc/sbtcCrv}%~(\texttt{0x64eda5})
+\item \texttt{btbtc/sbtcCrv}%~(\texttt{0xb9d076})
+\item \texttt{ibBTC}%~(\texttt{0xc4e159})
+\item \texttt{wibBTC}%~(\texttt{0x8751d4})
+\item \texttt{ibbtc/sbtcCRV-f}%~(\texttt{0xfbdca6})
+\item \texttt{bibbtc/sbtcCRV-f}%~(\texttt{0xae96ff})
 \end{enumerate}
+\end{multicols}
+%\vspace{-10pt}
 
 \texttt{renBTC} can be deposited with a contract to mint
 \texttt{sBTC}, \texttt{sBTC} can be deposited with a contract to mint
@@ -300,16 +304,13 @@ the case that no such contracts have been deployed during the time
 period covered by the data?  We believe the answer is the latter since
 it \textit{is} possible to deploy a contract that creates tokenising
 meta-events that produce a directed cycle in the filtered token graph.
-We have created such a contract\footnote{The contract is published as
-a GitHub repository.  The link is omitted from this submission due to
-information that can identify the authors.
-%\url{https://github.com/harrigan/tokenised-tokens-contracts}:
-The repository contains a smart contract
-(\texttt{ERC20ExchangeWrapper}) that can tokenise any token
-(\texttt{IERC20 underlyingToken}) with any other
-(\texttt{IERC20Wrapper overlyingToken}).} to demonstrate this.  It can
-produce directed cycles of arbitrary length (including loops) in the
-filtered token graph.
+We have created such a contract\footnote{The contract is published at
+\url{https://github.com/harrigan/tokenised-tokens-contracts}: The
+repository contains a smart contract (\texttt{ERC20ExchangeWrapper})
+that can tokenise any token (\texttt{IERC20 underlyingToken}) with any
+other (\texttt{IERC20Wrapper overlyingToken}).} to demonstrate this.
+It can produce directed cycles of arbitrary length (including loops)
+in the filtered token graph.
 
 The unfiltered token graph does not contain any loops.  However, it
 does contain a small number of directed cycles.  The graph has
@@ -319,11 +320,9 @@ investigated the tokens involved in these directed cycles.  Many are
 ``test tokens'' or tokens from defunct protocols, e.g.,
 \texttt{TST}~(\texttt{0x50e508}) and
 \texttt{TST2}~(\texttt{0x70b34d}), \texttt{TSH}~(\texttt{0x46bada})
-and \texttt{TCH}~(\texttt{0x2fe3e4}), etc.  None of the tokens
-represented by the vertices in these components have a non-zero market
-capitalisation according to CoinGecko and only one
+and \texttt{TCH}~(\texttt{0x2fe3e4}), etc.  None of the tokens have a
+non-zero market capitalisation according to CoinGecko and only two
 (\texttt{USDx}~(\texttt{0x2f6081}) and
-\texttt{xBond}~(\texttt{0xa8f8dc})) is traded in a liquidity pool
+\texttt{xBond}~(\texttt{0xa8f8dc})) are traded in liquidity pools
 according to DEX Screener.  Although directed cycles and loops can
-occur in a token graph, they are not the product of any practical or
-widespread operation.
+occur in a token graph, they are not commonplace.

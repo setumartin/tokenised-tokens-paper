@@ -4,10 +4,10 @@ Tokens are central to blockchain-based protocols and
 applications~\cite{voshmgir-20}.  Token composition is a technique
 where one or more tokens can be combined to create new tokens.  The
 entitlements of the input tokens are appropriated by the new token.
-We extract data from EVM logs (Sect.~\ref{sec:token-comp-evm-logs})
-and use it to construct a token graph
-(Sect.~\ref{sec:token-comp-token-graph}), a representation of the
-tokenisation process.  In Sect.~\ref{sec:analysis} we will analyse the
+We extract data from EVM logs (Sec.~\ref{sec:token-comp-evm-logs}) and
+use it to construct a token graph
+(Sec.~\ref{sec:token-comp-token-graph}), a representation of the
+tokenisation process.  In Sec.~\ref{sec:analysis} we will analyse the
 graph and relate it to the tokenisation process.
 
 \subsection{EVM Logs, Events and Meta-Events}\label{sec:token-comp-evm-logs}
@@ -27,8 +27,8 @@ event emitted by ERC~20 tokens~\cite{vogelsteller-buterin-15}:
 
 The event has two special cases.  If the \texttt{from} address is the
 zero address (\texttt{0x0}) then the contract mints new tokens.  If
-the \texttt{to} address is the zero address then the contract burns
-existing tokens.
+the \texttt{to} address is the zero address then it burns existing
+tokens.
 
 A single transaction can emit multiple events.  We define a
 \textit{meta-event} to be a sequence of events that match some pattern
@@ -132,20 +132,19 @@ cannot be deposited with the contract to mint Token~$\mathcal{Y}$.  Of
 the \num{4032033} tokenising meta-events, \num{3461723} meet the
 additional requirement.  We will refer to the \textit{unfiltered} and
 \textit{filtered tokenising meta-events} in
-Sect.~\ref{sec:token-comp-token-graph}.
+Sec.~\ref{sec:token-comp-token-graph}.
 
 Additionally, we incorporate market capitalisation data from
 CoinGecko~\cite{gecko-labs-xx} and liquidity pool data from DEX
 Screener~\cite{dex-screener-xx}.  CoinGecko aggregates fundamental
 analysis of tokens including market price, exchange volume, and market
 capitalisation. DEX Screener~\cite{dex-screener-xx} stores, parses,
-and analyses blockchain data to produce a token screener, charts, and
-analytics.
+and analyses blockchain data to produce a token screener with charts.
 
 \subsection{The Token Graph}\label{sec:token-comp-token-graph}
 
 \begin{figure}
-  \centerline{\includegraphics[width=0.8\columnwidth]{img/token-graph/token-graph.png}}
+  \centerline{\includegraphics[width=0.75\columnwidth]{img/token-graph/token-graph.png}}
   \caption{A token graph, $\mathcal{TG}$, with eight vertices, $t_0,
     t_1, \ldots, t_7$, and eight edges.  Each edge corresponds to a
     token tokenising another token.  For example, the token
@@ -180,15 +179,15 @@ unauthenticated: a contract can emit an event of its choosing.  There
 is no guarantee that, say, an ERC-20 \texttt{Transfer} event
 accurately reflects an actual transfer~\cite{guidi-michienzi-22}.
 Furthermore, the first special case highlighted in
-Sect.~\ref{sec:token-comp-evm-logs} (mint) is recommended by
+Sec.~\ref{sec:token-comp-evm-logs} (mint) is recommended by
 ERC-20\footnote{``A token contract which creates new tokens SHOULD
 trigger a Transfer event with the \texttt{\_from} address set to
 \texttt{0x0} when tokens are
 created.''~\cite{vogelsteller-buterin-15}} but the second (burn) is
 not.  However, EVM logs for the Ethereum blockchain are generally
 accurate and malicious contracts can be easily excluded.  For an
-aggregated analysis, such as ours, the impact of these limitations
-should be minimal.
+aggregated analysis, such as ours, we believe the impact of these
+limitations are minimal.
 
 Secondly, the data from CoinGecko and DEX Screener are snapshots that
 were gathered in April 2024 whereas the EVM logs have a temporal
@@ -198,14 +197,14 @@ existed.  It is also possible that a token was tracked by DEX Screener
 in the past, but, at the time the data was gathered, it was no longer
 being tracked.  It is also possible that the token coverage of
 CoinGecko or DEX Screener is incomplete or inaccurate.  However, as a
-high-level measure of token popularity, the impact of the mismatch
-should be minimal.
+high-level measure of token popularity, we believe the impact of this
+potential mismatch is minimal.
 
-Thirdly, tokenising meta-events are a heurstic for identifying
+Thirdly, tokenising meta-events are a heuristic for identifying
 instances where one token is tokenised by another.  False positives
 create edges in the token graph where the token corresponding to the
 source is not tokenised by the token corresponding to the target;
 false negatives are pairs of tokens where one is tokenised by the
 other but there is no corresponding edge in the token graph.  We will
-discuss both cases in Sect.~\ref{sec:analysis} and
-Sect.~\ref{sec:conclusion}.
+discuss both cases in Sec.~\ref{sec:analysis} and
+Sec.~\ref{sec:conclusion}.

@@ -13,6 +13,7 @@
 \usepackage{siunitx}
 \usepackage{listings}
 \input{solidity.tex}
+\usepackage{multicol}
 \usepackage{multirow}
 \usepackage{url}
 \usepackage{enumitem}
@@ -34,25 +35,25 @@
 
 \title{Token Composition: A Graph Based on EVM Logs}
 
-%% \author{
-%% \IEEEauthorblockN{Martin Harrigan}
-%% \IEEEauthorblockA{\textit{Dept.\ of Computing, Carlow Campus}\\
-%% \textit{South East Technological University}\\
-%% Rep.\ of Ireland\\
-%% martin.harrigan@setu.ie}
-%% \and
-%% \IEEEauthorblockN{Thomas Lloyd}
-%% \IEEEauthorblockA{\textit{Dept.\ of Computing, Carlow Campus}\\
-%% \textit{South East Technological University}\\
-%% Rep.\ of Ireland\\
-%% tomlloyd1992@gmail.com}
-%% \and
-%% \IEEEauthorblockN{Daire O'Broin}
-%% \IEEEauthorblockA{\textit{Dept.\ of Computing, Carlow Campus} \\
-%% \textit{South East Technological University}\\
-%% Rep.\ of Ireland\\
-%% daire.obroin@setu.ie}
-%% }
+\author{
+\IEEEauthorblockN{Martin Harrigan}
+\IEEEauthorblockA{\textit{Dept.\ of Computing, Carlow Campus}\\
+\textit{South East Technological University}\\
+Rep.\ of Ireland\\
+martin.harrigan@setu.ie}
+\and
+\IEEEauthorblockN{Thomas Lloyd}
+\IEEEauthorblockA{\textit{Dept.\ of Computing, Carlow Campus}\\
+\textit{South East Technological University}\\
+Rep.\ of Ireland\\
+tomlloyd1992@gmail.com}
+\and
+\IEEEauthorblockN{Daire O'Broin}
+\IEEEauthorblockA{\textit{Dept.\ of Computing, Carlow Campus} \\
+\textit{South East Technological University}\\
+Rep.\ of Ireland\\
+daire.obroin@setu.ie}
+}
 
 \maketitle
 
@@ -60,8 +61,7 @@
   \input{tex/abstract}
 
   \begin{IEEEkeywords}
-    blockchain, tokens, tokenisation, wrapped tokens, decentralised
-    finance, graph analysis
+    blockchain, wrapped tokens, graph analysis
   \end{IEEEkeywords}
 \end{abstract}
 
